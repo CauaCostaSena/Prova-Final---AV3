@@ -16,3 +16,8 @@ Funcionalidade: Alteração de produtos
   Cenário: Alterar produto inexistente
     Quando alterar o produto de código 99 para nome "Headset", preço 150 e estoque 3
     Então o sistema deve informar a mensagem "Produto com código 99 não encontrado"
+
+  Cenário: Rejeitar alteração de produto com dados inválidos
+    Quando alterar o produto de código 1 para nome "Teclado", preço -5 e estoque 10
+    Então o sistema deve informar a mensagem "O preço do produto não pode ser negativo"
+    Mas o produto de código 1 deve ter nome "Teclado", preço 80 e estoque 10

@@ -32,8 +32,8 @@ Na pasta raiz do projeto (onde está o `pom.xml`), rode:
 mvn test
 ```
 
-Esse comando compila o projeto e executa **todos os testes**: os 10 testes unitários com
-Mockito e os 10 cenários Gherkin com Cucumber. Ao final, o Maven mostra `BUILD SUCCESS`.
+Esse comando compila o projeto e executa **todos os testes**: os 12 testes unitários com
+Mockito e os 12 cenários Gherkin com Cucumber. Ao final, o Maven mostra `BUILD SUCCESS`.
 
 Para rodar só uma parte:
 
@@ -92,21 +92,23 @@ src
 | Consultar produto pelo código | `ProdutoService.consultar` | Consultar produto existente pelo código | `deveConsultarProdutoExistente` |
 | Alterar produto existente | `ProdutoService.alterar` | Alterar os dados de um produto existente | `deveAtualizarProdutoExistente` |
 | Excluir produto pelo código | `ProdutoService.excluir` | Excluir produto existente pelo código | `deveExcluirProdutoExistente` |
-| Rejeitar nome vazio | `ProdutoService.validar` | Rejeitar cadastro de produto com nome vazio | `naoDeveCadastrarProdutoComNomeVazio` |
-| Rejeitar preço negativo | `ProdutoService.validar` | Rejeitar cadastro de produto com preço negativo | `naoDeveCadastrarProdutoComPrecoNegativo` |
-| Rejeitar quantidade negativa | `ProdutoService.validar` | Rejeitar cadastro de produto com quantidade negativa | `naoDeveCadastrarProdutoComQuantidadeNegativa` |
+| Rejeitar nome vazio | `ProdutoService.validar` | Esquema: rejeitar cadastro com dados inválidos (exemplo 1) | `naoDeveCadastrarProdutoComNomeVazio` |
+| Rejeitar preço negativo | `ProdutoService.validar` | Esquema (exemplo 2); rejeitar alteração com dados inválidos | `naoDeveCadastrarProdutoComPrecoNegativo`, `naoDeveAlterarProdutoComDadosInvalidos` |
+| Rejeitar quantidade negativa | `ProdutoService.validar` | Esquema (exemplo 3) | `naoDeveCadastrarProdutoComQuantidadeNegativa` |
 | Informar produto não encontrado | `ProdutoNaoEncontradoException` | Consultar, alterar e excluir produto inexistente | `deveInformarQuandoProdutoConsultadoNaoExiste`, `naoDeveAlterarProdutoInexistente`, `naoDeveExcluirProdutoInexistente` |
+| Rejeitar código já cadastrado (regra adicional) | `ProdutoService.cadastrar` | Rejeitar cadastro de produto com código já existente | `naoDeveCadastrarProdutoComCodigoJaExistente` |
 
 ## Itens exigidos na avaliação
 
 **Gherkin e Cucumber**
-- 10 cenários em 4 arquivos `.feature` (mínimo exigido: 6), com casos de sucesso e de falha
+- 12 cenários em 4 arquivos `.feature` (mínimo exigido: 6), com casos de sucesso e de falha
+- Um Esquema do Cenário com tabela de Exemplos e um passo com a palavra-chave Mas
 - Cenários escritos em português (`# language: pt`)
 - Definições de passos em Java em `ProdutoSteps.java`
 - Execução pelo Maven por meio de `RunCucumberTest.java`
 
 **Mockito e JUnit**
-- 10 testes unitários em `ProdutoServiceTest.java` (mínimo exigido: 5), incluindo os 5 obrigatórios:
+- 12 testes unitários em `ProdutoServiceTest.java` (mínimo exigido: 5), incluindo os 5 obrigatórios:
   cadastro válido, consulta existente, consulta inexistente, atualização e exclusão
 - Repositório simulado com `mock()`; retornos definidos com `when()` e `thenReturn()`
 - `verify()` usado para conferir as chamadas ao repositório, inclusive com `never()` nos casos de erro

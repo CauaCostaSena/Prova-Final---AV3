@@ -1,5 +1,6 @@
 package br.com.prova.produtos.steps;
 
+import br.com.prova.produtos.exception.ProdutoInvalidoException;
 import br.com.prova.produtos.exception.ProdutoNaoEncontradoException;
 import br.com.prova.produtos.model.Produto;
 import br.com.prova.produtos.repository.ProdutoRepositoryEmMemoria;
@@ -16,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Definições de passos (step definitions) que ligam as frases dos arquivos
  * .feature ao código Java do sistema de produtos.
+ *
+ * Os passos Quando capturam só as exceções do sistema; qualquer outro erro
+ * (um bug inesperado) faz o cenário falhar na hora.
  *
  * A persistência é simulada com o ProdutoRepositoryEmMemoria,
  * sem banco de dados externo. O Cucumber cria uma nova instância desta
@@ -45,7 +49,7 @@ public class ProdutoSteps {
     public void cadastrarOProduto(int codigo, String nome, double preco, int estoque) {
         try {
             service.cadastrar(new Produto(codigo, nome, preco, estoque));
-        } catch (RuntimeException e) {
+        } catch (ProdutoInvalidoException | ProdutoNaoEncontradoException e) {
             erro = e;
         }
     }
@@ -54,7 +58,7 @@ public class ProdutoSteps {
     public void consultarOProduto(int codigo) {
         try {
             produtoExibido = service.consultar(codigo);
-        } catch (RuntimeException e) {
+        } catch (ProdutoInvalidoException | ProdutoNaoEncontradoException e) {
             erro = e;
         }
     }
@@ -63,7 +67,7 @@ public class ProdutoSteps {
     public void alterarOProduto(int codigo, String nome, double preco, int estoque) {
         try {
             service.alterar(new Produto(codigo, nome, preco, estoque));
-        } catch (RuntimeException e) {
+        } catch (ProdutoInvalidoException | ProdutoNaoEncontradoException e) {
             erro = e;
         }
     }
@@ -72,7 +76,7 @@ public class ProdutoSteps {
     public void excluirOProduto(int codigo) {
         try {
             service.excluir(codigo);
-        } catch (RuntimeException e) {
+        } catch (ProdutoInvalidoException | ProdutoNaoEncontradoException e) {
             erro = e;
         }
     }

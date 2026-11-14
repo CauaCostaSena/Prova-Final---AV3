@@ -2,7 +2,7 @@ package br.com.prova.produtos.exception;
 
 /**
  * Lançada quando os dados de um produto não são válidos
- * (nome vazio, preço negativo ou quantidade negativa).
+ * (nome vazio, preço negativo, quantidade negativa ou código já cadastrado).
  */
 public class ProdutoInvalidoException extends RuntimeException {
 

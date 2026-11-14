@@ -17,6 +17,7 @@ public class ProdutoService {
     public static final String MSG_NOME_VAZIO = "O nome do produto não pode ser vazio";
     public static final String MSG_PRECO_NEGATIVO = "O preço do produto não pode ser negativo";
     public static final String MSG_QUANTIDADE_NEGATIVA = "A quantidade em estoque não pode ser negativa";
+    public static final String MSG_CODIGO_EXISTENTE = "Já existe um produto com o código ";
 
     private final ProdutoRepository repositorio;
 
@@ -24,9 +25,12 @@ public class ProdutoService {
         this.repositorio = repositorio;
     }
 
-    /** Cadastra um novo produto, desde que os dados sejam válidos. */
+    /** Cadastra um novo produto, desde que os dados sejam válidos e o código ainda não exista. */
     public void cadastrar(Produto produto) {
         validar(produto);
+        if (repositorio.buscarPorCodigo(produto.getCodigo()).isPresent()) {
+            throw new ProdutoInvalidoException(MSG_CODIGO_EXISTENTE + produto.getCodigo());
+        }
         repositorio.salvar(produto);
     }
 

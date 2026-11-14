@@ -45,6 +45,7 @@ class ProdutoServiceTest {
     @DisplayName("Deve cadastrar produto com dados válidos")
     void deveCadastrarProdutoValido() {
         Produto produto = new Produto(1, "Teclado", 80.0, 10);
+        when(repositorio.buscarPorCodigo(1)).thenReturn(Optional.empty());
 
         service.cadastrar(produto);
 
@@ -61,7 +62,7 @@ class ProdutoServiceTest {
 
         assertSame(produto, encontrado);
         assertEquals("Teclado", encontrado.getNome());
-        verify(repositorio).buscarPorCodigo(1);
+        verify(repositorio, never()).salvar(any());
     }
 
     @Test
@@ -133,6 +134,31 @@ class ProdutoServiceTest {
                 ProdutoInvalidoException.class, () -> service.cadastrar(produto));
 
         assertEquals("A quantidade em estoque não pode ser negativa", erro.getMessage());
+        verify(repositorio, never()).salvar(any());
+    }
+
+    @Test
+    @DisplayName("Não deve cadastrar produto com código já existente")
+    void naoDeveCadastrarProdutoComCodigoJaExistente() {
+        Produto existente = new Produto(1, "Teclado", 80.0, 10);
+        when(repositorio.buscarPorCodigo(1)).thenReturn(Optional.of(existente));
+
+        ProdutoInvalidoException erro = assertThrows(
+                ProdutoInvalidoException.class, () -> service.cadastrar(new Produto(1, "Mouse", 50.0, 5)));
+
+        assertEquals("Já existe um produto com o código 1", erro.getMessage());
+        verify(repositorio, never()).salvar(any());
+    }
+
+    @Test
+    @DisplayName("Não deve alterar produto com dados inválidos")
+    void naoDeveAlterarProdutoComDadosInvalidos() {
+        Produto alterado = new Produto(1, "Teclado", -5.0, 10);
+
+        ProdutoInvalidoException erro = assertThrows(
+                ProdutoInvalidoException.class, () -> service.alterar(alterado));
+
+        assertEquals("O preço do produto não pode ser negativo", erro.getMessage());
         verify(repositorio, never()).salvar(any());
     }
 
