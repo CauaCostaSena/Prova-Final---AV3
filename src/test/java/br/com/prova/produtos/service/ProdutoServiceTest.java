@@ -102,14 +102,16 @@ class ProdutoServiceTest {
     // ---------- Dados inválidos ----------
 
     @Test
-    @DisplayName("Não deve cadastrar produto com nome vazio")
+    @DisplayName("Não deve cadastrar produto com nome vazio, só com espaços ou nulo")
     void naoDeveCadastrarProdutoComNomeVazio() {
-        Produto produto = new Produto(2, "", 50.0, 5);
+        for (String nome : new String[] {"", "   ", null}) {
+            Produto produto = new Produto(2, nome, 50.0, 5);
 
-        ProdutoInvalidoException erro = assertThrows(
-                ProdutoInvalidoException.class, () -> service.cadastrar(produto));
+            ProdutoInvalidoException erro = assertThrows(
+                    ProdutoInvalidoException.class, () -> service.cadastrar(produto));
 
-        assertEquals("O nome do produto não pode ser vazio", erro.getMessage());
+            assertEquals("O nome do produto não pode ser vazio", erro.getMessage());
+        }
         verify(repositorio, never()).salvar(any());
     }
 

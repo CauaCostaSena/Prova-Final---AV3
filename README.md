@@ -70,7 +70,7 @@ src
 │   ├── repository/ProdutoRepositoryEmMemoria.java  # persistência simulada em memória
 │   ├── service/ProdutoService.java                 # regras: cadastrar, consultar, alterar, excluir
 │   └── exception/
-│       ├── ProdutoInvalidoException.java           # nome vazio, preço ou quantidade negativos
+│       ├── ProdutoInvalidoException.java           # dados inválidos ou código já cadastrado
 │       └── ProdutoNaoEncontradoException.java      # produto não encontrado
 └── test
     ├── java/br/com/prova/produtos
@@ -112,7 +112,7 @@ src
   cadastro válido, consulta existente, consulta inexistente, atualização e exclusão
 - Repositório simulado com `mock()`; retornos definidos com `when()` e `thenReturn()`
 - `verify()` usado para conferir as chamadas ao repositório, inclusive com `never()` nos casos de erro
-- Casos de dados inválidos: nome vazio, preço negativo e quantidade negativa
+- Casos de dados inválidos: nome vazio (também só com espaços ou nulo), preço negativo e quantidade negativa
 
 ## Tecnologias e versões
 
@@ -123,3 +123,4 @@ src
 | Mockito | 5.14.2 |
 | Cucumber (cucumber-java + junit-platform-engine) | 7.20.1 |
 | Maven Surefire Plugin | 3.5.2 |
+| Maven Dependency Plugin (carrega o Mockito como agente Java) | 3.8.1 |

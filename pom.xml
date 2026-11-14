@@ -88,11 +88,30 @@
                 <version>3.13.0</version>
             </plugin>
 
-            <!-- Executa os testes JUnit, Mockito e Cucumber no comando "mvn test" -->
+            <!-- Descobre o caminho do jar do Mockito para usá-lo como agente Java -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Executa os testes JUnit, Mockito e Cucumber no comando "mvn test".
+                 O Mockito entra como agente Java, como recomenda a documentação dele,
+                 para não gerar avisos de carregamento dinâmico no Java 21 ou superior. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
+                <configuration>
+                    <argLine>-javaagent:${org.mockito:mockito-core:jar} -Xshare:off</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>
