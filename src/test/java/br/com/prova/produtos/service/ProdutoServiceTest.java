@@ -99,6 +99,19 @@ class ProdutoServiceTest {
         verify(repositorio).excluirPorCodigo(1);
     }
 
+    // ---------- Valores no limite ----------
+
+    @Test
+    @DisplayName("Deve cadastrar produto com preço zero e estoque zero")
+    void deveCadastrarProdutoComPrecoEEstoqueZero() {
+        Produto produto = new Produto(5, "Brinde", 0.0, 0);
+        when(repositorio.buscarPorCodigo(5)).thenReturn(Optional.empty());
+
+        service.cadastrar(produto);
+
+        verify(repositorio).salvar(produto);
+    }
+
     // ---------- Dados inválidos ----------
 
     @Test

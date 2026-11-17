@@ -104,13 +104,15 @@
 
             <!-- Executa os testes JUnit, Mockito e Cucumber no comando "mvn test".
                  O Mockito entra como agente Java, como recomenda a documentação dele,
-                 para não gerar avisos de carregamento dinâmico no Java 21 ou superior. -->
+                 para não gerar avisos de carregamento dinâmico no Java 21 ou superior.
+                 O file.encoding faz os acentos dos cenários saírem certos no terminal
+                 do Windows com Java 17, em que o padrão ainda não é UTF-8. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
                 <configuration>
-                    <argLine>-javaagent:${org.mockito:mockito-core:jar} -Xshare:off</argLine>
+                    <argLine>-javaagent:${org.mockito:mockito-core:jar} -Xshare:off -Dfile.encoding=UTF-8</argLine>
                 </configuration>
             </plugin>
         </plugins>

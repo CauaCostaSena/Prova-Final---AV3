@@ -32,7 +32,7 @@ Na pasta raiz do projeto (onde está o `pom.xml`), rode:
 mvn test
 ```
 
-Esse comando compila o projeto e executa **todos os testes**: os 12 testes unitários com
+Esse comando compila o projeto e executa **todos os testes**: os 13 testes unitários com
 Mockito e os 12 cenários Gherkin com Cucumber. Ao final, o Maven mostra `BUILD SUCCESS`.
 
 Para rodar só uma parte:
@@ -108,11 +108,12 @@ src
 - Execução pelo Maven por meio de `RunCucumberTest.java`
 
 **Mockito e JUnit**
-- 12 testes unitários em `ProdutoServiceTest.java` (mínimo exigido: 5), incluindo os 5 obrigatórios:
+- 13 testes unitários em `ProdutoServiceTest.java` (mínimo exigido: 5), incluindo os 5 obrigatórios:
   cadastro válido, consulta existente, consulta inexistente, atualização e exclusão
 - Repositório simulado com `mock()`; retornos definidos com `when()` e `thenReturn()`
 - `verify()` usado para conferir as chamadas ao repositório, inclusive com `never()` nos casos de erro
 - Casos de dados inválidos: nome vazio (também só com espaços ou nulo), preço negativo e quantidade negativa
+- Valores no limite: preço zero e estoque zero são aceitos (`deveCadastrarProdutoComPrecoEEstoqueZero`)
 
 ## Tecnologias e versões
 
@@ -122,5 +123,6 @@ src
 | JUnit (Jupiter / Platform) | 5.11.4 |
 | Mockito | 5.14.2 |
 | Cucumber (cucumber-java + junit-platform-engine) | 7.20.1 |
+| Maven Compiler Plugin | 3.13.0 |
 | Maven Surefire Plugin | 3.5.2 |
 | Maven Dependency Plugin (carrega o Mockito como agente Java) | 3.8.1 |
