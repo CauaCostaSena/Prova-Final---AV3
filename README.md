@@ -45,8 +45,10 @@ mvn test -Dtest=ProdutoServiceTest
 mvn test -Dtest=RunCucumberTest
 ```
 
-Também é possível rodar pela IDE (IntelliJ, Eclipse ou VS Code), importando como projeto
-Maven e executando as classes `ProdutoServiceTest` e `RunCucumberTest`.
+Também é possível rodar pela IDE (IntelliJ, Eclipse ou VS Code): importe a pasta como projeto
+Maven e execute a fase `test` pelo painel do Maven da IDE. Use o Maven, e não o botão de rodar
+a classe, porque o `pom.xml` passa o caminho do jar do Mockito para os testes durante o build
+do Maven (o Mockito é carregado como agente Java).
 
 ## Evidências dos testes
 

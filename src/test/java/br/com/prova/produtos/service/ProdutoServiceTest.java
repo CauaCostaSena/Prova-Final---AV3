@@ -168,7 +168,9 @@ class ProdutoServiceTest {
     @Test
     @DisplayName("Não deve alterar produto com dados inválidos")
     void naoDeveAlterarProdutoComDadosInvalidos() {
+        Produto original = new Produto(1, "Teclado", 80.0, 10);
         Produto alterado = new Produto(1, "Teclado", -5.0, 10);
+        when(repositorio.buscarPorCodigo(1)).thenReturn(Optional.of(original));
 
         ProdutoInvalidoException erro = assertThrows(
                 ProdutoInvalidoException.class, () -> service.alterar(alterado));
